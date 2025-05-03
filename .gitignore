@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# 가상환경
+venv/
+.env
+
+# 로그, 임시파일
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
