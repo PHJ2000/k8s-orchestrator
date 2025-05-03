@@ -1,18 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from app.k8s_manager import create_deployment, delete_deployment, get_status
-from app.schemas import DeployRequest
+from app.schemas import DeployRequest, StatusResponse
 
 app = FastAPI()
 
 @app.post("/deploy")
-def deploy_app(req: DeployRequest):
-    try:
-        create_deployment(req.name, req.image, req.port)
-        return {"message": f"{req.name} deployed successfully"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+def deploy_app(request: DeployRequest):
+    create_deployment(name=request.name, image=request.image)
+    return {"message": f"Deployment '{request.name}' with image '{request.image}' created successfully."}
 
-@app.get("/status/{name}")
+@app.get("/status/{name}", response_model=StatusResponse)
 def status(name: str):
     return get_status(name)
 
