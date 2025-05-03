@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from app.k8s_manager import create_deployment, delete_deployment, get_status
+from app.k8s_manager import create_deployment, delete_deployment, get_status, list_deployments
 from app.schemas import DeployRequest, StatusResponse
 
 app = FastAPI()
@@ -17,3 +17,7 @@ def status(name: str):
 def delete_app(name: str):
     delete_deployment(name)
     return {"message": f"{name} deleted"}
+
+@app.get("/list")
+def get_deployments():
+    return list_deployments()

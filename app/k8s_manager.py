@@ -48,3 +48,15 @@ def get_status(name: str) -> StatusResponse:
         replicas=dep.status.replicas or 0,
         available_replicas=dep.status.available_replicas or 0,
     )
+
+def list_deployments():
+    apps_v1 = client.AppsV1Api()
+    deployments = apps_v1.list_namespaced_deployment(namespace="default")
+    result = []
+    for dep in deployments.items:
+        result.append({
+            "name": dep.metadata.name,
+            "replicas": dep.spec.replicas,
+            "available_replicas": dep.status.available_replicas or 0
+        })
+    return result
